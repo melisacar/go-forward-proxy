@@ -44,7 +44,7 @@ func main() {
 
 	fmt.Println("Starting proxy server on port", port)
 
-	err := http.ListenAndServe(":"+port, nil)
+	err := http.ListenAndServeTLS(":"+port, "/etc/ssl/certs/cert.pem", "/etc/ssl/private/key.pem", nil)
 	if err != nil {
 		log.Fatal("Error starting the server: ", err)
 	}
