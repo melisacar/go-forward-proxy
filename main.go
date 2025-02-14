@@ -16,7 +16,8 @@ import (
 
 func ProxyHandler(w http.ResponseWriter, r *http.Request) {
 	// Specify the target address want to proxy
-	target := "https://anitsayac.com/"
+	// target := "https://anitsayac.com/"
+	target := "http://go.com/"
 
 	// Parsing the URL
 	parsedURL, err := url.Parse(target)
