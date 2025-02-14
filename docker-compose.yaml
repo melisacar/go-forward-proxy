@@ -1,0 +1,8 @@
+services:
+  proxy:
+    build: .
+    ports:
+      - "2020:1010"
+    environment:
+      - TARGET_URL=https://anitsayac.com/
+    entrypoint: ["/bin/sh", "/app/entrypoint.sh"]
