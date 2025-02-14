@@ -1,14 +1,20 @@
-FROM golang:1.20
+FROM golang:1.23
 
-RUN apt-get update && apt-get install -y openssl
+RUN apt-get update && apt-get install -y openssl ca-certificates
+
+RUN mkdir -p /etc/ssl/private && touch /etc/ssl/openssl.cnf
 
 WORKDIR /app
 COPY . .
 
-RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/key.pem -out /etc/ssl/certs/cert.pem -days 365 -nodes \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=localhost"
-
+# Build the Go binary
 RUN go mod tidy
 RUN go build -o go-forward-proxy .
 
-CMD ["./go-forward-proxy"]
+# Ensure the binary is executable
+RUN chmod +x /app/go-forward-proxy
+
+# List files in /app to verify the binary is there
+RUN ls -al /app
+
+CMD ["/app/entrypoint.sh"]
